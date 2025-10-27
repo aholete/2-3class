@@ -3,154 +3,118 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>授業変更アプリ</title>
+<title>恋愛おみくじ付き 時間割アプリ</title>
 <style>
 body {
-    box-sizing: border-box;
-    font-family: 'Hiragino Sans', 'Yu Gothic', sans-serif;
-    margin: 0;
-    padding: 20px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100%;
+    font-family: "Helvetica Neue", sans-serif;
+    background: #fff5f8;
     color: #333;
-}
-html { height: 100%; }
-.container {
-    max-width: 900px;
-    margin: 0 auto;
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    overflow: hidden;
-}
-.header {
-    background: linear-gradient(45deg, #4facfe 0%, #00f2fe 100%);
-    color: white;
-    padding: 30px 20px;
+    margin: 0;
+    padding: 0;
     text-align: center;
 }
-.header h1 {
-    margin: 0;
-    font-size: 24px;
-    font-weight: 600;
-}
-.main-content {
-    display: flex;
-    flex-wrap: wrap;
-    height: auto;
-}
-.date-buttons {
-    padding: 20px;
-    display: grid;
-    gap: 12px;
-    flex: 1;
-    border-right: 2px solid #e1e8ff;
-    min-width: 260px;
-}
-.date-row {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-}
-.date-button {
-    background: linear-gradient(45deg, #87ceeb 0%, #4facfe 100%);
+
+header {
+    background: #ff6b9d;
     color: white;
-    border: none;
-    padding: 16px 20px;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: 500;
+    padding: 1em;
+    font-size: 1.3em;
+    letter-spacing: 1px;
+}
+
+main {
+    padding: 1em;
+}
+
+button {
+    background: white;
+    color: #ff6b9d;
+    border: 2px solid #ff6b9d;
+    border-radius: 8px;
+    padding: 0.6em 1.2em;
+    margin: 0.4em;
+    font-size: 1em;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(135, 206, 235, 0.3);
-    flex: 1;
+    transition: 0.2s;
 }
-.date-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(135, 206, 235, 0.4);
-}
-.omikuji-button {
-    background: linear-gradient(45deg, #ff6b9d 0%, #c44569 100%);
+button:hover {
+    background: #ff6b9d;
     color: white;
-    border: none;
-    padding: 16px;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
-    min-width: 80px;
 }
-.schedule-display {
-    flex: 1;
-    margin: 20px;
-    padding: 20px;
-    background: #f8f9ff;
-    border-radius: 12px;
-    border-left: 4px solid #4facfe;
+button:disabled {
+    background: #ffc4d6;
+    color: white;
+    cursor: not-allowed;
+    border-color: #ffc4d6;
+}
+
+#scheduleDisplay {
+    margin-top: 1em;
+    background: white;
+    border-radius: 10px;
+    padding: 1em;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     display: none;
-    animation: fadeIn 0.3s ease;
+    text-align: left;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 500px;
 }
-.schedule-display.show {
+#scheduleDisplay.show {
     display: block;
 }
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+#scheduleDate {
+    font-weight: bold;
+    color: #ff6b9d;
+    font-size: 1.2em;
+    margin-bottom: 0.5em;
 }
-.schedule-date {
-    font-size: 18px;
-    font-weight: 600;
-    color: #4facfe;
-    margin-bottom: 15px;
-    padding-bottom: 8px;
-    border-bottom: 2px solid #e1e8ff;
-}
-.schedule-content {
-    font-size: 15px;
-    line-height: 1.6;
-    color: #555;
+.change-item, .no-change {
+    background: #fff;
+    padding: 0.6em;
+    margin: 0.3em 0;
+    border-left: 6px solid #ff6b9d;
+    border-radius: 5px;
 }
 .no-change {
-    color: #28a745;
-    font-weight: 500;
-    font-style: italic;
-}
-.change-item {
-    margin: 8px 0;
-    padding: 8px 12px;
-    background: white;
-    border-radius: 8px;
-    border-left: 3px solid #f5576c;
+    border-left-color: #aaa;
 }
 </style>
 </head>
 <body>
-<main class="container">
-<header class="header">
-    <div style="position: relative; margin-bottom: 10px;">
-        <h1 style="margin: 0; text-align: center;">📖 2年3組の予定</h1>
-        <button class="date-button" onclick="showAttention()" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);">⚠️ 注意</button>
+<header>💕 恋愛おみくじ付き 時間割 💕</header>
+
+<main>
+    <div>
+        <button onclick="showSchedule('1028')">10月28日（火）</button>
+        <button id="omikuji1028" onclick="drawOmikuji('1028')">💕おみくじ</button>
     </div>
-    <p style="margin: 10px 0 0 0; font-size: 14px; opacity: 0.9;">e-Resident of Estonia　　Baron Fujimoto</p>
-    <p style="margin: 5px 0 0 0; font-size: 12px; opacity: 0.8;">#知性と教養が服を着て歩いている</p>
-</header>
+    <div>
+        <button onclick="showSchedule('1029')">10月29日（水）</button>
+        <button id="omikuji1029" onclick="drawOmikuji('1029')">💕おみくじ</button>
+    </div>
+    <div>
+        <button onclick="showSchedule('1030')">10月30日（木）</button>
+        <button id="omikuji1030" onclick="drawOmikuji('1030')">💕おみくじ</button>
+    </div>
+    <div>
+        <button onclick="showSchedule('1031')">10月31日（金）</button>
+        <button id="omikuji1031" onclick="drawOmikuji('1031')">💕おみくじ</button>
+    </div>
+    <div>
+        <button onclick="showSchedule('1101')">11月1日（土）</button>
+        <button id="omikuji1101" onclick="drawOmikuji('1101')">💕おみくじ</button>
+    </div>
 
-<div class="main-content">
-<section class="date-buttons">
-    <div class="date-row"><button class="date-button" onclick="showSchedule('1028')">10月28日（火）</button><button class="omikuji-button" id="omikuji1028" onclick="drawOmikuji('1028')">💕おみくじ</button></div>
-    <div class="date-row"><button class="date-button" onclick="showSchedule('1029')">10月29日（水）</button><button class="omikuji-button" id="omikuji1029" onclick="drawOmikuji('1029')">💕おみくじ</button></div>
-    <div class="date-row"><button class="date-button" onclick="showSchedule('1030')">10月30日（木）</button><button class="omikuji-button" id="omikuji1030" onclick="drawOmikuji('1030')">💕おみくじ</button></div>
-    <div class="date-row"><button class="date-button" onclick="showSchedule('1031')">10月31日（金）</button><button class="omikuji-button" id="omikuji1031" onclick="drawOmikuji('1031')">💕おみくじ</button></div>
-    <div class="date-row"><button class="date-button" onclick="showSchedule('1101')">11月1日（土）</button><button class="omikuji-button" id="omikuji1101" onclick="drawOmikuji('1101')">💕おみくじ</button></div>
-</section>
+    <div style="margin-top: 1em;">
+        <button style="border-color:#ff9500;color:#ff9500;" onclick="showAttention()">⚠️ お知らせ</button>
+    </div>
 
-<div id="scheduleDisplay" class="schedule-display">
-    <div id="scheduleDate" class="schedule-date"></div>
-    <div id="scheduleContent" class="schedule-content"></div>
-</div>
-</div>
+    <div id="scheduleDisplay">
+        <div id="scheduleDate"></div>
+        <div id="scheduleContent"></div>
+    </div>
 </main>
 
 <script>
@@ -163,8 +127,36 @@ const scheduleData = {
 };
 
 const omikujiData = {
-    '1028': ['💖 大吉 💖<br>今日は運命の人との出会いがありそう！', '💕 中吉 💕<br>好きな人からの連絡が来るかも。', '💗 小吉 💗<br>友達から恋愛のアドバイスがもらえそう。', '💔 凶 💔<br>今日は距離を置いた方が良さそう。'],
-    '1029': ['💖 大吉 💖<br>告白するなら今日がチャンス！', '💕 中吉 💕<br>片思いの人と偶然会えるかも。', '💗 小吉 💗<br>新しい出会いに期待して。', '💔 凶 💔<br>告白は今日は避けた方が無難。']
+    '1028': [
+        '💖 大吉 💖<br>今日は運命の人との出会いがありそう！',
+        '💕 中吉 💕<br>好きな人からの連絡が来るかも。',
+        '💗 小吉 💗<br>友達から恋愛のアドバイスがもらえそう。',
+        '💔 凶 💔<br>今日は距離を置いた方が良さそう。'
+    ],
+    '1029': [
+        '💖 大吉 💖<br>告白するなら今日がチャンス！',
+        '💕 中吉 💕<br>片思いの人と偶然会えるかも。',
+        '💗 小吉 💗<br>新しい出会いに期待して。',
+        '💔 凶 💔<br>告白は今日は避けた方が無難。'
+    ],
+    '1030': [
+        '💖 大吉 💖<br>思い切って行動すると良い結果が！',
+        '💕 中吉 💕<br>友人との絆が深まる日。',
+        '💗 小吉 💗<br>いつもより素直になると吉。',
+        '💔 凶 💔<br>感情的にならないよう注意。'
+    ],
+    '1031': [
+        '💖 大吉 💖<br>学園祭で素敵な出会いがあるかも！',
+        '💕 中吉 💕<br>友達の紹介にチャンスあり。',
+        '💗 小吉 💗<br>思わぬところで好印象をゲット。',
+        '💔 凶 💔<br>噂話には注意して。'
+    ],
+    '1101': [
+        '💖 大吉 💖<br>準備の努力が実を結ぶ！',
+        '💕 中吉 💕<br>笑顔が幸運を呼びます。',
+        '💗 小吉 💗<br>今日は感謝を伝えると良い日。',
+        '💔 凶 💔<br>焦らずゆっくり行動して吉。'
+    ]
 };
 
 const drawnOmikuji = new Set();
@@ -179,16 +171,20 @@ function showSchedule(key) {
 }
 
 function drawOmikuji(key) {
+    if (!omikujiData[key]) return; // 安全対策
     if (drawnOmikuji.has(key)) return;
+
     const d = document.getElementById('scheduleDisplay');
     const dd = document.getElementById('scheduleDate');
     const c = document.getElementById('scheduleContent');
     const b = document.getElementById('omikuji' + key);
     const o = omikujiData[key];
     const r = Math.floor(Math.random() * o.length);
+
     dd.textContent = scheduleData[key].date + ' - 恋愛おみくじ';
     c.innerHTML = '<div class="change-item" style="border-left-color: #ff6b9d;">' + o[r] + '</div>';
     d.classList.add('show');
+
     drawnOmikuji.add(key);
     b.disabled = true;
     b.textContent = '引き済み';
@@ -203,5 +199,6 @@ function showAttention() {
     d.classList.add('show');
 }
 </script>
+
 </body>
 </html>
