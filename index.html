@@ -130,8 +130,8 @@ html { height: 100%; }
 <main class="container">
 <header class="header">
     <div style="position: relative; margin-bottom: 10px;">
-        <h1 style="margin: 0; text-align: center;">2-3連絡</h1>
-        <button class="date-button" onclick="showAttention()" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);">⚠️ 警告</button>
+        <h1 style="margin: 0; text-align: center;">2-3朝のHR</h1>
+        <button class="date-button" onclick="showAttention()" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);">本日の連絡</button>
     </div>
     <p style="margin: 10px 0 0 0; font-size: 14px; opacity: 0.9;">e-Resident of Estonia</p>
     <p style="margin: 10px 0 0 0; font-size: 14px; opacity: 0.9;">Baron Fujimoto</p>
@@ -228,8 +228,9 @@ function showAttention() {
     const d = document.getElementById('scheduleDisplay');
     const dd = document.getElementById('scheduleDate');
     const c = document.getElementById('scheduleContent');
-    dd.textContent = '⚠️ ダメ。ゼッタイ。';
-    c.innerHTML = '<div class="change-item" style="border-left-color: #ff9500;">8時20分に大甕駅に到着する下り電車に乗っている女生徒2人はマナーを守りましょう。</div>';
+    dd.textContent = '図書委員会';
+    c.innerHTML = '<div class="change-item" style="border-left-color: #ff9500;">13時10分～13時25分@図書館（iPad持参）
+</div>';
     d.classList.add('show');
 }
 </script>
