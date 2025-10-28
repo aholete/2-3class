@@ -38,6 +38,14 @@ html { height: 100%; }
     font-weight: 600;
 }
 
+/* ✝ 聖書・讃美歌表示エリア */
+.header .bible-text {
+    margin-top: 8px;
+    color: black;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
 .main-content {
     display: flex;
     flex-wrap: wrap;
@@ -59,7 +67,7 @@ html { height: 100%; }
     align-items: center;
 }
 
-/* 🌿 日付ボタン（少し濃い緑） */
+/* 🌿 日付ボタン */
 .date-button {
     background: linear-gradient(45deg, #81C784 0%, #4CAF50 100%);
     color: white;
@@ -78,7 +86,7 @@ html { height: 100%; }
     box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
 }
 
-/* 🍊 おみくじボタン（同サイズ・1行構成） */
+/* 🍊 おみくじボタン */
 .omikuji-button {
     background: linear-gradient(45deg, #ff9500 0%, #ff6a00 100%);
     color: white;
@@ -153,7 +161,10 @@ html { height: 100%; }
 <main class="container">
 <header class="header">
     <h1 style="margin: 0;">10月29日（水）</h1>
-    <p style="margin: 5px 0 0 0; font-size: 12px; opacity: 0.8;">讃美歌59、箴言30章7～9節</p>
+    <div class="bible-text">
+        <div>讃美歌59</div>
+        <div>箴言30章7～9節</div>
+    </div>
 </header>
 
 <div class="main-content">
@@ -183,9 +194,9 @@ html { height: 100%; }
 <script>
 const scheduleData = {
     '1029': { date: '10月29日（水）', content: '<div class="change-item">保健委員会12時55分＠大会議室（iPad持参）</div><div class="change-item">2限：世界史/日本史</div><div class="change-item">3限：聖書</div><div class="change-item">6限：LHR</div><div class="change-item">7限：探究</div>' },
-    '1030': { date: '10月30日（木）', content: '<div class="change-item">授業変更なし</div><div class="change-item">予定は未定</div><div class="change-item">予定は未定</div><div class="change-item">予定は未定</div><div class="change-item">予定は未定</div>' },
-    '1031': { date: '10月31日（金）', content: '<div class="change-item">5限～7限：学園祭準備</div><div class="change-item">予定は未定</div><div class="change-item">予定は未定</div><div class="change-item">予定は未定</div><div class="change-item">予定は未定</div>' },
-    '1101': { date: '11月1日（土）', content: '<div class="change-item">午前中：生徒会企画</div><div class="change-item">午後：学園祭準備（～16時）</div><div class="change-item">予定は未定</div><div class="change-item">予定は未定</div><div class="change-item">予定は未定</div>' }
+    '1030': { date: '10月30日（木）', content: '<div class="change-item">授業変更なし</div>' },
+    '1031': { date: '10月31日（金）', content: '<div class="change-item">5限～7限：学園祭準備</div>' },
+    '1101': { date: '11月1日（土）', content: '<div class="change-item">午前中：生徒会企画</div><div class="change-item">午後：学園祭準備（～16時）</div>' }
 };
 
 const omikujiResults = [
