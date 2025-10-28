@@ -1,142 +1,201 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PiQMap Web</title>
+<title>朝のおみくじ</title>
 <style>
-  body {
-    font-family: "Arial", sans-serif;
+body {
+    box-sizing: border-box;
+    font-family: 'Hiragino Sans', 'Yu Gothic', sans-serif;
     margin: 0;
+    padding: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100%;
+    color: #333;
+}
+html { height: 100%; }
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    overflow: hidden;
+}
+.header {
+    background: linear-gradient(45deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+    padding: 30px 20px;
+    text-align: center;
+}
+.header h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+}
+.main-content {
     display: flex;
-    flex-direction: column;
-    height: 100vh;
-  }
-  #map {
+    flex-wrap: wrap;
+    height: auto;
+}
+.date-buttons {
+    padding: 20px;
+    display: grid;
+    gap: 12px;
     flex: 1;
-  }
-  #overlay {
-    display: none;
-    height: 300px;
-    border-top: 2px solid #007BFF;
-  }
-  iframe {
-    width: 100%;
-    height: 100%;
+    border-right: 2px solid #e1e8ff;
+    min-width: 260px;
+}
+.date-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+.date-button {
+    background: linear-gradient(45deg, #87ceeb 0%, #4facfe 100%);
+    color: white;
     border: none;
-  }
-  #toggle {
-    padding: 10px;
-    background: #f0f0f0;
-  }
-  label {
-    font-weight: bold;
-  }
+    padding: 16px 20px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(135, 206, 235, 0.3);
+    flex: 1;
+}
+.date-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(135, 206, 235, 0.4);
+}
+.schedule-display {
+    flex: 1;
+    margin: 20px;
+    padding: 20px;
+    background: #f8f9ff;
+    border-radius: 12px;
+    border-left: 4px solid #4facfe;
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+.schedule-display.show {
+    display: block;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.schedule-date {
+    font-size: 18px;
+    font-weight: 600;
+    color: #4facfe;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e1e8ff;
+}
+.schedule-content {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #555;
+}
+.change-item {
+    margin: 8px 0;
+    padding: 8px 12px;
+    background: white;
+    border-radius: 8px;
+    border-left: 3px solid #f5576c;
+}
 </style>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<link
-  rel="stylesheet"
-  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-/>
 </head>
 <body>
-<div id="map"></div>
-<div id="toggle">
-  <label>
-    <input type="checkbox" id="showOverlay" /> PiQMapを表示
-  </label>
+<main class="container">
+<header class="header">
+    <div style="position: relative; margin-bottom: 10px;">
+        <h1 style="margin: 0; text-align: center;">10月29日（水）</h1>
+        <button class="date-button" onclick="drawOmikuji()" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);">おみくじ</button>
+    </div>
+    <p style="margin: 5px 0 0 0; font-size: 12px; opacity: 0.8;">天才は有限、努力は無限</p>
+</header>
+
+<div class="main-content">
+<section class="date-buttons">
+    <div class="date-row"><button class="date-button" onclick="showSchedule('1029')">10月29日（水）</button></div>
+    <div class="date-row"><button class="date-button" onclick="showSchedule('1030')">10月30日（木）</button></div>
+    <div class="date-row"><button class="date-button" onclick="showSchedule('1031')">10月31日（金）</button></div>
+    <div class="date-row"><button class="date-button" onclick="showSchedule('1101')">11月1日（土）</button></div>
+</section>
+
+<div id="scheduleDisplay" class="schedule-display">
+    <div id="scheduleDate" class="schedule-date"></div>
+    <div id="scheduleContent" class="schedule-content"></div>
 </div>
-<div id="overlay">
-  <iframe id="webFrame" src=""></iframe>
 </div>
+</main>
 
 <script>
-const map = L.map('map').setView([36.51294, 140.61616], 17);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  maxZoom: 19,
-}).addTo(map);
+const scheduleData = {
+    '1029': { date: '10月29日（水）', content: '<div class="change-item">2限：世界史/日本史</div><div class="change-item">3限：聖書</div><div class="change-item">6限：LHR</div><div class="change-item">7限：探究</div>' },
+    '1030': { date: '10月30日（木）', content: '<div class="change-item">授業変更なし</div>' },
+    '1031': { date: '10月31日（金）', content: '<div class="change-item">5限～7限：学園祭準備</div>' },
+    '1101': { date: '11月1日（土）', content: '<div class="change-item">午前中：生徒会企画</div><div class="change-item">午後：学園祭準備（～16時）</div>' }
+};
 
-const targets = [
-  { lat: 36.5129744, lng: 140.6162104, url: "https://sites.google.com/view/piqmap/中高1号館" },
-  { lat: 36.5130253, lng: 140.6167163, url: "https://sites.google.com/view/piqmap/中高2号館" },
-  { lat: 36.5126087, lng: 140.6165638, url: "https://sites.google.com/view/piqmap/中高3号館" },
-  { lat: 36.5124875, lng: 140.6162704, url: "https://sites.google.com/view/piqmap/中高4号館" },
-  { lat: 36.5127208, lng: 140.6158962, url: "https://sites.google.com/view/piqmap/国際教育館" },
-  { lat: 36.5133659, lng: 140.6164934, url: "https://sites.google.com/view/piqmap/中高5号館" },
-  { lat: 36.5131515, lng: 140.6159549, url: "https://sites.google.com/view/piqmap/中高6号館" },
-  { lat: 36.5135915, lng: 140.6160813, url: "https://sites.google.com/view/piqmap/学園講堂" },
-  { lat: 36.5134390, lng: 140.6169192, url: "https://sites.google.com/view/piqmap/中高7号館" },
-  { lat: 36.5141695, lng: 140.6161413, url: "https://sites.google.com/view/piqmap/高校テニスコート" },
-  { lat: 36.5138478, lng: 140.6172826, url: "https://sites.google.com/view/piqmap/高校体育館" },
-  { lat: 36.5126925, lng: 140.6183961, url: "https://sites.google.com/view/piqmap/正門" },
-  { lat: 36.5127720, lng: 140.6170298, url: "https://sites.google.com/view/piqmap/生協" },
-  { lat: 36.5110932, lng: 140.6164830, url: "https://sites.google.com/view/piqmap/キアラ館" },
-  { lat: 36.5118141, lng: 140.6175210, url: "https://sites.google.com/view/piqmap/学園図書館" },
-  { lat: 36.5105602, lng: 140.6167224, url: "https://sites.google.com/view/piqmap/学生食堂" },
-  { lat: 36.5122118, lng: 140.6156595, url: "https://sites.google.com/view/piqmap/記念館" },
-  { lat: 36.51222056, lng: 140.6182677, url: "https://sites.google.com/view/piqmap/大学11号館テラス" },
-  { lat: 36.5144950, lng: 140.6169618, url: "https://sites.google.com/view/piqmap/本部" },
-  { lat: 36.5112352, lng: 140.6175622, url: "https://sites.google.com/view/piqmap/シオン館" },
-  { lat: 36.5103640, lng: 140.6174392, url: "https://sites.google.com/view/piqmap/モアヘッド記念館" },
-  { lat: 36.50972, lng: 140.61667, url: "https://sites.google.com/view/piqmap/野球場" },
-  { lat: 36.5102123, lng: 140.6158275, url: "https://sites.google.com/view/piqmap/若草寮" },
-  { lat: 36.5106357, lng: 140.6174003, url: "https://sites.google.com/view/piqmap/大学8号館" },
-  { lat: 36.5118790, lng: 140.6155083, url: "https://sites.google.com/view/piqmap/ゴルフ場" },
-  { lat: 36.5137661, lng: 140.6168367, url: "https://sites.google.com/view/piqmap/カウンセリング研究所" },
-  { lat: 36.5110153, lng: 140.6157997, url: "https://sites.google.com/view/piqmap/大学5号館" }
+const omikujiResults = [
+    {name: '凶', text: 'ダメ'},
+    {name: '吉', text: '可'},
+    {name: '末吉', text: 'まあ可'},
+    {name: '小吉', text: 'やや良'},
+    {name: '中吉', text: '良'},
+    {name: '大吉', text: 'ラッキー'}
 ];
 
-targets.forEach(t => {
-  L.marker([t.lat, t.lng]).addTo(map);
-});
-
-const overlay = document.getElementById('overlay');
-const webFrame = document.getElementById('webFrame');
-const showOverlay = document.getElementById('showOverlay');
-let tolerance = 30; // meters
-
-showOverlay.addEventListener('change', () => {
-  overlay.style.display = showOverlay.checked ? 'block' : 'none';
-});
-
-if (navigator.geolocation) {
-  navigator.geolocation.watchPosition((pos) => {
-    const { latitude, longitude } = pos.coords;
-    map.setView([latitude, longitude], map.getZoom());
-    checkNearest(latitude, longitude);
-  }, err => {
-    alert("位置情報が取得できませんでした: " + err.message);
-  }, { enableHighAccuracy: true });
+// ローカルストレージで1日2回制限
+function getTodayKey() {
+    const today = new Date();
+    return today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
 }
 
-function checkNearest(lat, lng) {
-  let closest = null;
-  let minDist = Infinity;
-  targets.forEach(t => {
-    const dist = distance(lat, lng, t.lat, t.lng);
-    if (dist < tolerance && dist < minDist) {
-      minDist = dist;
-      closest = t;
+function getDrawCount() {
+    const key = getTodayKey();
+    const data = JSON.parse(localStorage.getItem('omikujiCount')) || {};
+    return data[key] || 0;
+}
+
+function incrementDrawCount() {
+    const key = getTodayKey();
+    const data = JSON.parse(localStorage.getItem('omikujiCount')) || {};
+    data[key] = (data[key] || 0) + 1;
+    localStorage.setItem('omikujiCount', JSON.stringify(data));
+}
+
+function drawOmikuji() {
+    const count = getDrawCount();
+    if (count >= 2) {
+        alert("今日はもう2回引きました。また明日どうぞ！");
+        return;
     }
-  });
-  if (closest && showOverlay.checked) {
-    webFrame.src = closest.url;
-    overlay.style.display = 'block';
-  } else {
-    overlay.style.display = 'none';
-  }
+    incrementDrawCount();
+
+    const r = Math.floor(Math.random() * omikujiResults.length);
+    const result = omikujiResults[r];
+    const d = document.getElementById('scheduleDisplay');
+    const dd = document.getElementById('scheduleDate');
+    const c = document.getElementById('scheduleContent');
+
+    dd.textContent = '今日の運勢：' + result.name;
+    c.innerHTML = '<div class="change-item" style="border-left-color:#ff6b9d;">' + result.text + '</div>';
+    d.classList.add('show');
 }
 
-// haversine distance (m)
-function distance(lat1, lon1, lat2, lon2) {
-  const R = 6371000;
-  const toRad = x => x * Math.PI / 180;
-  const dLat = toRad(lat2 - lat1);
-  const dLon = toRad(lon2 - lon1);
-  const a = Math.sin(dLat / 2) ** 2 +
-            Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-            Math.sin(dLon / 2) ** 2;
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+function showSchedule(key) {
+    const d = document.getElementById('scheduleDisplay');
+    const dd = document.getElementById('scheduleDate');
+    const c = document.getElementById('scheduleContent');
+    dd.textContent = scheduleData[key].date;
+    c.innerHTML = scheduleData[key].content;
+    d.classList.add('show');
 }
 </script>
 </body>
