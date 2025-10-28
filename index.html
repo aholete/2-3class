@@ -15,6 +15,7 @@ body {
     color: #333;
 }
 html { height: 100%; }
+
 .container {
     max-width: 900px;
     margin: 0 auto;
@@ -23,22 +24,26 @@ html { height: 100%; }
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     overflow: hidden;
 }
+
 .header {
     background: linear-gradient(45deg, #4facfe 0%, #00f2fe 100%);
     color: white;
     padding: 30px 20px;
     text-align: center;
 }
+
 .header h1 {
     margin: 0;
     font-size: 24px;
     font-weight: 600;
 }
+
 .main-content {
     display: flex;
     flex-wrap: wrap;
     height: auto;
 }
+
 .date-buttons {
     padding: 20px;
     display: grid;
@@ -47,14 +52,16 @@ html { height: 100%; }
     border-right: 2px solid #e1e8ff;
     min-width: 260px;
 }
+
 .date-row {
     display: flex;
     gap: 8px;
     align-items: center;
 }
-/* 🌿 日付ボタン（淡い緑） */
+
+/* 🌿 日付ボタン（少し濃い緑） */
 .date-button {
-    background: linear-gradient(45deg, #A8E6CF 0%, #81C784 100%);
+    background: linear-gradient(45deg, #81C784 0%, #4CAF50 100%);
     color: white;
     border: none;
     padding: 16px 20px;
@@ -63,30 +70,40 @@ html { height: 100%; }
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(129, 199, 132, 0.3);
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
     flex: 1;
 }
 .date-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(129, 199, 132, 0.4);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
 }
-/* 🍊 おみくじボタン（オレンジ） */
+
+/* 🍊 おみくじボタン（2行構成） */
 .omikuji-button {
     background: linear-gradient(45deg, #ff9500 0%, #ff6a00 100%);
     color: white;
     border: none;
-    padding: 16px 20px;
+    padding: 10px 20px;
     border-radius: 12px;
     font-size: 16px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(255, 149, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.3;
+}
+.omikuji-button span {
+    display: block;
 }
 .omikuji-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(255, 149, 0, 0.4);
 }
+
 .schedule-display {
     flex: 1;
     margin: 20px;
@@ -131,7 +148,11 @@ html { height: 100%; }
 <header class="header">
     <div style="position: relative; margin-bottom: 10px;">
         <h1 style="margin: 0; text-align: center;">10月29日（水）</h1>
-        <button class="omikuji-button" onclick="drawOmikuji()" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);">おみくじ</button>
+        <button class="omikuji-button" onclick="drawOmikuji()" 
+                style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);">
+            <span>おみくじ</span>
+            <span style="font-size: 12px; opacity: 0.9;">1日2回</span>
+        </button>
     </div>
     <p style="margin: 5px 0 0 0; font-size: 12px; opacity: 0.8;">天才は有限、努力は無限</p>
 </header>
@@ -217,4 +238,5 @@ function showSchedule(key) {
 </script>
 </body>
 </html>
+
 
