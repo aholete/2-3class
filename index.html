@@ -161,7 +161,7 @@ html { height: 100%; }
 
     <!-- 🍊 おみくじボタン＋結果 -->
     <div class="date-row">
-        <button class="omikuji-button" onclick="drawOmikuji()">おみくじ　1日3回</button>
+        <button class="omikuji-button" onclick="drawOmikuji()">おみくじ　1日5回</button>
     </div>
     <div id="omikujiResult" class="omikuji-result"></div>
 
@@ -197,7 +197,7 @@ const omikujiResults = [
     {name: '大吉', text: '浜田と焼肉食べ放題！'}
 ];
 
-// ローカルストレージで1日3回制限
+// ローカルストレージで1日5回制限
 function getTodayKey() {
     const today = new Date();
     return today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
