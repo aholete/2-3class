@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -53,8 +52,9 @@ html { height: 100%; }
     gap: 8px;
     align-items: center;
 }
+/* 🌿 日付ボタン（緑） */
 .date-button {
-    background: linear-gradient(45deg, #87ceeb 0%, #4facfe 100%);
+    background: linear-gradient(45deg, #4CAF50 0%, #2E8B57 100%);
     color: white;
     border: none;
     padding: 16px 20px;
@@ -63,12 +63,29 @@ html { height: 100%; }
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(135, 206, 235, 0.3);
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
     flex: 1;
 }
 .date-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(135, 206, 235, 0.4);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+/* 🍊 おみくじボタン（オレンジ） */
+.omikuji-button {
+    background: linear-gradient(45deg, #ff9500 0%, #ff6a00 100%);
+    color: white;
+    border: none;
+    padding: 16px 20px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 149, 0, 0.3);
+}
+.omikuji-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 149, 0, 0.4);
 }
 .schedule-display {
     flex: 1;
@@ -114,7 +131,7 @@ html { height: 100%; }
 <header class="header">
     <div style="position: relative; margin-bottom: 10px;">
         <h1 style="margin: 0; text-align: center;">10月29日（水）</h1>
-        <button class="date-button" onclick="drawOmikuji()" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);">おみくじ</button>
+        <button class="omikuji-button" onclick="drawOmikuji()" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);">おみくじ</button>
     </div>
     <p style="margin: 5px 0 0 0; font-size: 12px; opacity: 0.8;">天才は有限、努力は無限</p>
 </header>
@@ -185,7 +202,7 @@ function drawOmikuji() {
     const c = document.getElementById('scheduleContent');
 
     dd.textContent = '今日の運勢：' + result.name;
-    c.innerHTML = '<div class="change-item" style="border-left-color:#ff6b9d;">' + result.text + '</div>';
+    c.innerHTML = '<div class="change-item" style="border-left-color:#ff9500;">' + result.text + '</div>';
     d.classList.add('show');
 }
 
