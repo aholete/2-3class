@@ -1,24 +1,253 @@
 <!doctype html>
-<ol className="list-decimal list-inside font-medium mb-3">
-{winners.map((w, i) => (
-<li key={i} className="py-1 text-lg">{w}</li>
-))}
-</ol>
+<html lang="ja">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rainbow Touch</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Hiragino Sans', 'Yu Gothic', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+            cursor: crosshair;
+            user-select: none;
+        }
 
+        html {
+            height: 100%;
+        }
 
-<div className="flex gap-2">
-<button onClick={copyWinners} className="px-4 py-2 rounded-md border">コピー</button>
-<button onClick={exportJSON} className="px-4 py-2 rounded-md border">JSON ダウンロード</button>
-<button onClick={exportCSV} className="px-4 py-2 rounded-md border">CSV ダウンロード</button>
-</div>
-</div>
-)}
-</section>
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
 
+        .title {
+            color: white;
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            z-index: 10;
+            pointer-events: none;
+        }
 
-<footer className="mt-6 text-sm text-slate-500 text-center">© {new Date().getFullYear()} くじ引きアプリ — GitHub に公開して共有しましょう</footer>
-</div>
-</div>
-);
-}
+        .instruction {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.3);
+            z-index: 10;
+            pointer-events: none;
+        }
 
+        .light-effect {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: lightPulse 1.5s ease-out forwards;
+            box-shadow: 0 0 20px currentColor, 0 0 40px currentColor, 0 0 60px currentColor;
+        }
+
+        @keyframes lightPulse {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(0);
+            }
+            50% {
+                opacity: 0.8;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            100% {
+                width: 200px;
+                height: 200px;
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(1.5);
+            }
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sparkleAnimation 1s ease-out forwards;
+        }
+
+        @keyframes sparkleAnimation {
+            0% {
+                opacity: 1;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+        }
+
+        .clear-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            z-index: 20;
+        }
+
+        .clear-button:hover {
+            background: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.5);
+            transform: scale(1.05);
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="container" id="container">
+   <h1 class="title" id="title">🌈 レインボータッチ</h1>
+   <p class="instruction" id="instruction">画面をタップして美しい光を作り出そう！</p><button class="clear-button" onclick="clearEffects()">✨ クリア</button>
+  </div>
+  <script>
+        const defaultConfig = {};
+
+        const colors = [
+            '#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57',
+            '#ff9ff3', '#54a0ff', '#5f27cd', '#00d2d3', '#ff9f43',
+            '#10ac84', '#ee5a24', '#0abde3', '#feca57', '#48dbfb',
+            '#ff6348', '#1dd1a1', '#feca57', '#ff9ff3', '#3742fa'
+        ];
+
+        let effectCount = 0;
+
+        function createLightEffect(x, y) {
+            const container = document.getElementById('container');
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            
+            // メインの光エフェクト
+            const lightEffect = document.createElement('div');
+            lightEffect.className = 'light-effect';
+            lightEffect.style.left = x + 'px';
+            lightEffect.style.top = y + 'px';
+            lightEffect.style.background = `radial-gradient(circle, ${randomColor}aa 0%, ${randomColor}44 50%, transparent 100%)`;
+            lightEffect.style.color = randomColor;
+            
+            container.appendChild(lightEffect);
+            effectCount++;
+
+            // キラキラエフェクト
+            for (let i = 0; i < 8; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle';
+                    const angle = (i * 45) * Math.PI / 180;
+                    const distance = 30 + Math.random() * 40;
+                    const sparkleX = x + Math.cos(angle) * distance;
+                    const sparkleY = y + Math.sin(angle) * distance;
+                    
+                    sparkle.style.left = sparkleX + 'px';
+                    sparkle.style.top = sparkleY + 'px';
+                    sparkle.style.background = randomColor;
+                    sparkle.style.boxShadow = `0 0 10px ${randomColor}`;
+                    
+                    container.appendChild(sparkle);
+                    
+                    setTimeout(() => {
+                        if (sparkle.parentNode) {
+                            sparkle.parentNode.removeChild(sparkle);
+                        }
+                    }, 1000);
+                }, i * 50);
+            }
+
+            // エフェクトを1.5秒後に削除
+            setTimeout(() => {
+                if (lightEffect.parentNode) {
+                    lightEffect.parentNode.removeChild(lightEffect);
+                }
+            }, 1500);
+        }
+
+        function clearEffects() {
+            const container = document.getElementById('container');
+            const effects = container.querySelectorAll('.light-effect, .sparkle');
+            effects.forEach(effect => {
+                if (effect.parentNode) {
+                    effect.parentNode.removeChild(effect);
+                }
+            });
+            effectCount = 0;
+        }
+
+        // タッチイベント
+        document.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            for (let i = 0; i < e.touches.length; i++) {
+                const touch = e.touches[i];
+                createLightEffect(touch.clientX, touch.clientY);
+            }
+        });
+
+        // マウスイベント
+        document.addEventListener('mousedown', function(e) {
+            createLightEffect(e.clientX, e.clientY);
+        });
+
+        // Elements SDK の実装
+        async function onConfigChange(config) {
+            // テキスト要素がないため何もしない
+        }
+
+        function mapToCapabilities(config) {
+            return {
+                recolorables: [],
+                borderables: [],
+                fontEditable: undefined,
+                fontSizeable: undefined
+            };
+        }
+
+        function mapToEditPanelValues(config) {
+            return new Map();
+        }
+
+        // SDK初期化
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig,
+                onConfigChange,
+                mapToCapabilities,
+                mapToEditPanelValues
+            });
+        }
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99583589a01bafdc',t:'MTc2MTYzMTE4Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
