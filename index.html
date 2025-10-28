@@ -151,7 +151,7 @@ html { height: 100%; }
         <button class="omikuji-button" onclick="drawOmikuji()" 
                 style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);">
             <span>おみくじ</span>
-            <span style="font-size: 12px; opacity: 0.9;">1日2回</span>
+            <span style="font-size: 12px; opacity: 0.9;">1日3回</span>
         </button>
     </div>
     <p style="margin: 5px 0 0 0; font-size: 12px; opacity: 0.8;">讃美歌59、箴言30章7～9節</p>
@@ -181,18 +181,18 @@ const scheduleData = {
 };
 
 const omikujiResults = [
-    {name: '凶', text: 'ダメ'},
-    {name: '吉', text: '可'},
-    {name: '末吉', text: 'まあ可'},
-    {name: '小吉', text: 'やや良'},
-    {name: '中吉', text: '良'},
-    {name: '大吉', text: 'ラッキー'}
+    {name: '凶', text: 'バロンの館へようこそ！'},
+    {name: '吉', text: '常北ファームで愛のささやき'},
+    {name: '末吉', text: '脳筋大爆発！'},
+    {name: '小吉', text: '宇佐美を独り占め！'},
+    {name: '中吉', text: '萩谷の壁ドン'},
+    {name: '大吉', text: '浜田と焼肉食べ放題！'}
 ];
 
 // ローカルストレージで1日2回制限
 function getTodayKey() {
     const today = new Date();
-    return today.getFullYear() + '-' + (today.getMonth()+2) + '-' + today.getDate();
+    return today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
 }
 
 function getDrawCount() {
@@ -210,8 +210,8 @@ function incrementDrawCount() {
 
 function drawOmikuji() {
     const count = getDrawCount();
-    if (count >= 2) {
-        alert("今日はもう2回引きました。また明日どうぞ！");
+    if (count >= 3) {
+        alert("今日はおしまい。");
         return;
     }
     incrementDrawCount();
