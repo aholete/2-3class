@@ -1,75 +1,24 @@
-/*
-LotteryApp.jsx
-Single-file React component (default export) for a simple, friendly "くじ引き" web app.
+<!doctype html>
+<ol className="list-decimal list-inside font-medium mb-3">
+{winners.map((w, i) => (
+<li key={i} className="py-1 text-lg">{w}</li>
+))}
+</ol>
 
 
-Features
-- 参加者を追加（改行またはカンマで複数登録可）
-- 参加者一覧の編集・削除
-- 当選者数を指定してランダム抽選（Fisher–Yates）
-- 抽選結果のコピー / JSON / CSV エクスポート
-- localStorage に保存してリロードでも保持
-- シンプルでモバイル対応の Tailwind UI
+<div className="flex gap-2">
+<button onClick={copyWinners} className="px-4 py-2 rounded-md border">コピー</button>
+<button onClick={exportJSON} className="px-4 py-2 rounded-md border">JSON ダウンロード</button>
+<button onClick={exportCSV} className="px-4 py-2 rounded-md border">CSV ダウンロード</button>
+</div>
+</div>
+)}
+</section>
 
 
-README（簡単な公開手順）
-1) Vite + React + Tailwind のセットアップ (推奨)
-npm create vite@latest my-lottery -- --template react
-cd my-lottery
-npm install
-※ Tailwind は公式セットアップに従う: https://tailwindcss.com/docs/guides/vite
-
-
-2) このファイルを src/App.jsx として置き換える。
-
-
-3) ローカルで確認
-npm run dev
-
-
-4) GitHub に公開
-git init
-git add .
-git commit -m "初回コミット: くじ引きアプリ"
-gh repo create <your-repo-name> --public --source=. --push
-
-
-5) GitHub Pages で公開（簡単）
-- Vercel や Netlify にリポジトリを連携するのが最も簡単です。
-- GitHub Pages を使う場合は gh-pages パッケージを使ったデプロイ方法を参照してください。
-
-
----- 注意 ----
-このファイルは単体の React コンポーネントです。Vite プロジェクトや CRA に組み込んでください。
-*/
-
-
-import React, { useEffect, useState, useRef } from "react";
-
-
-export default function LotteryApp() {
-const [input, setInput] = useState("");
-const [participants, setParticipants] = useState([]);
-const [winnersCount, setWinnersCount] = useState(1);
-const [winners, setWinners] = useState([]);
-const [isDrawing, setIsDrawing] = useState(false);
-const [seed, setSeed] = useState(Date.now());
-const resultRef = useRef(null);
-
-
-// load from localStorage
-useEffect(() => {
-try {
-const raw = localStorage.getItem("lottery:participants");
-if (raw) setParticipants(JSON.parse(raw));
-const wc = localStorage.getItem("lottery:winnersCount");
-if (wc) setWinnersCount(Number(wc));
-} catch (e) {
-console.warn("localStorage read error", e);
+<footer className="mt-6 text-sm text-slate-500 text-center">© {new Date().getFullYear()} くじ引きアプリ — GitHub に公開して共有しましょう</footer>
+</div>
+</div>
+);
 }
-}, []);
 
-
-// persist
-useEffect(() => {
-localStorage.setItem("lottery:participants", JSON.stringify(participants));
