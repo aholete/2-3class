@@ -14,8 +14,6 @@ body {
     min-height: 100%;
     color: #333;
 }
-html { height: 100%; }
-
 .container {
     max-width: 900px;
     margin: 0 auto;
@@ -24,252 +22,45 @@ html { height: 100%; }
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     overflow: hidden;
 }
-
 .header {
     background: linear-gradient(45deg, #4facfe 0%, #00f2fe 100%);
     color: white;
     padding: 30px 20px;
     text-align: center;
 }
-
 .header h1 {
     margin: 0;
     font-size: 24px;
     font-weight: 600;
 }
-
-/* ✝ 聖書・讃美歌表示エリア */
 .header .bible-text {
     margin-top: 8px;
     color: black;
     font-size: 16px;
     line-height: 1.5;
 }
-
-.main-content {
-    display: flex;
-    flex-wrap: wrap;
-    height: auto;
-}
-
-.date-buttons {
-    padding: 20px;
-    display: grid;
-    gap: 12px;
-    flex: 1;
-    border-right: 2px solid #e1e8ff;
-    min-width: 260px;
-}
-
-.date-row {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-}
-
-/* 🌿 日付ボタン */
-.date-button {
-    background: linear-gradient(45deg, #81C784 0%, #4CAF50 100%);
-    color: white;
-    border: none;
-    padding: 16px 20px;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
-    flex: 1;
-}
-.date-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
-}
-
-/* 🍊 おみくじボタン */
-.omikuji-button {
-    background: linear-gradient(45deg, #ff9500 0%, #ff6a00 100%);
-    color: white;
-    border: none;
-    padding: 16px 20px;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(255, 149, 0, 0.3);
-    text-align: center;
-    width: 100%;
-}
-.omikuji-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 149, 0, 0.4);
-}
-
-/* おみくじ結果表示 */
-.omikuji-result {
-    margin-top: 8px;
-    padding: 10px;
-    background: #fff7e6;
-    border-radius: 8px;
-    border-left: 4px solid #ff9500;
-    font-size: 14px;
-    text-align: center;
-    display: none;
-}
-
-.schedule-display {
-    flex: 1;
-    margin: 20px;
-    padding: 20px;
-    background: #f8f9ff;
-    border-radius: 12px;
-    border-left: 4px solid #4facfe;
-    display: none;
-    animation: fadeIn 0.3s ease;
-}
-.schedule-display.show {
-    display: block;
-}
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-.schedule-date {
-    font-size: 18px;
-    font-weight: 600;
-    color: #4facfe;
-    margin-bottom: 15px;
-    padding-bottom: 8px;
-    border-bottom: 2px solid #e1e8ff;
-}
-.schedule-content {
-    font-size: 15px;
-    line-height: 1.6;
-    color: #555;
-}
-.change-item {
-    margin: 8px 0;
-    padding: 8px 12px;
-    background: white;
-    border-radius: 8px;
-    border-left: 3px solid #f5576c;
-}
 </style>
 </head>
 <body>
 <main class="container">
 <header class="header">
+    <!-- 今日の日付が自動表示されます -->
     <h1 id="todayDate" style="margin: 0;"></h1>
     <div class="bible-text">
         <div>Peace Truth LOVE</div>
     </div>
 </header>
-
-<div class="main-content">
-<section class="date-buttons">
-
-    <!-- 🍊 おみくじボタン＋結果 -->
-    <div class="date-row">
-        <button class="omikuji-button" onclick="drawOmikuji()">おみくじ　1日5回</button>
-    </div>
-    <div id="omikujiResult" class="omikuji-result"></div>
-
-    <!-- 🌿 日付ボタン -->
-    <div class="date-row"><button class="date-button" onclick="showSchedule('1031')">10月31日（金）</button></div>
-    <div class="date-row"><button class="date-button" onclick="showSchedule('1101')">11月1日（土）</button></div>
-    <div class="date-row"><button class="date-button" onclick="showSchedule('1102')">11月2日（日）</button></div>
-    <div class="date-row"><button class="date-button" onclick="showSchedule('1103')">11月3日（月）</button></div>
-
-</section>
-
-<div id="scheduleDisplay" class="schedule-display">
-    <div id="scheduleDate" class="schedule-date"></div>
-    <div id="scheduleContent" class="schedule-content"></div>
-</div>
-</div>
 </main>
 
 <script>
-const scheduleData = {
-    '1031': { date: '10月31日（金）', content: '<div class="change-item">15時20分に全員教室集合して出欠確認します。</div><div class="change-item">美化委員：12時55分＠大会議室（iPad持参）</div><div class="change-item">私物はすべてロッカーに入れて施錠。ハンガーも使わない。</div><div class="change-item">11月1日（土）は「まごころ弁当」はありません。</div><div class="change-item">放課後に校舎見回りがあります。教員がいない場合は学園祭準備は18時までです。</div><div class="change-item">5限～7限：学園祭準備</div>' },
-    '1101': { date: '11月1日（土）', content: '<div class="change-item">本日は「まごころ弁当」はありません。</div><div class="change-item">午前中：生徒会企画</div><div class="change-item">午後：学園祭準備（～16時）</div>' },
-    '1102': { date: '11月2日（日）', content: '<div class="change-item">勉強勉強勉強</div>' },
-    '1103': { date: '11月3日（月）', content: '<div class="change-item">学園祭</div>' }
-};
+// 今日の日付を自動表示
+const today = new Date();
+const month = today.getMonth() + 1; // 月は0始まり
+const date = today.getDate();
+const weekdays = ['日','月','火','水','木','金','土'];
+const day = weekdays[today.getDay()];
 
-const omikujiResults = [
-    {name: '凶', text: 'バロンの館へようこそ！'},
-    {name: '吉', text: '常北ファームで愛のささやき'},
-    {name: '末吉', text: '脳筋大爆発！'},
-    {name: '小吉', text: '宇佐美を独り占め！'},
-    {name: '中吉', text: '萩谷の壁ドン'},
-    {name: '大吉', text: '浜田と焼肉食べ放題！'}
-];
-
-// ローカルストレージで1日5回制限
-function getTodayKey() {
-    const today = new Date();
-    return today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
-}
-
-function getDrawCount() {
-    const key = getTodayKey();
-    const data = JSON.parse(localStorage.getItem('omikujiCount')) || {};
-    return data[key] || 0;
-}
-
-function incrementDrawCount() {
-    const key = getTodayKey();
-    const data = JSON.parse(localStorage.getItem('omikujiCount')) || {};
-    data[key] = (data[key] || 0) + 1;
-    localStorage.setItem('omikujiCount', JSON.stringify(data));
-}
-
-function drawOmikuji() {
-    const count = getDrawCount();
-    if (count >= 5) {
-        alert("今日はおしまい。");
-        return;
-    }
-    incrementDrawCount();
-
-    const r = Math.floor(Math.random() * omikujiResults.length);
-    const result = omikujiResults[r];
-
-    const resultBox = document.getElementById('omikujiResult');
-    resultBox.style.display = 'block';
-    resultBox.innerHTML = `今日の運勢：<strong>${result.name}</strong><br>${result.text}`;
-}
-
-function showSchedule(key) {
-    const d = document.getElementById('scheduleDisplay');
-    const dd = document.getElementById('scheduleDate');
-    const c = document.getElementById('scheduleContent');
-    dd.textContent = scheduleData[key].date;
-    c.innerHTML = scheduleData[key].content;
-    d.classList.add('show');
-}
-
-// ★ ページ読み込み時に今日の日付・スケジュールを表示
-function updateTodayDate() {
-    const today = new Date();
-    const month = today.getMonth() + 1;
-    const date = today.getDate();
-    const weekdays = ['日','月','火','水','木','金','土'];
-    const day = weekdays[today.getDay()];
-
-    const h1 = document.getElementById('todayDate');
-    h1.textContent = `${month}月${date}日（${day}）`;
-
-    // 今日のスケジュール表示
-    const key = String(month).padStart(2,'0') + String(date).padStart(2,'0');
-    if(scheduleData[key]){
-        showSchedule(key);
-    }
-}
-
-updateTodayDate();
+document.getElementById('todayDate').textContent = `${month}月${date}日（${day}）`;
 </script>
 </body>
 </html>
