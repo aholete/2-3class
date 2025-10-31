@@ -156,7 +156,29 @@ html { height: 100%; }
 }
 
 
+/* 🎯 バッジコンテナ */
+.badge-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin: 30px 0;
+    flex-wrap: wrap;
+}
 
+/* 縦画面では縦並び */
+@media (orientation: portrait) {
+    .badge-container {
+        flex-direction: column;
+    }
+}
+
+/* 横画面では横並び */
+@media (orientation: landscape) {
+    .badge-container {
+        flex-direction: row;
+    }
+}
 
 
 
