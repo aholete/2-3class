@@ -160,7 +160,7 @@ html { height: 100%; }
 <body>
 <main class="container">
 <header class="header">
-    <h1 style="margin: 0;">10月31日（金）</h1>
+    <h1 id="todayDate" style="margin: 0;"></h1>
     <div class="bible-text">
         <div>Peace Truth LOVE</div>
     </div>
@@ -250,9 +250,27 @@ function showSchedule(key) {
     c.innerHTML = scheduleData[key].content;
     d.classList.add('show');
 }
+
+// ★ ページ読み込み時に今日の日付・スケジュールを表示
+function updateTodayDate() {
+    const today = new Date();
+    const month = today.getMonth() + 1;
+    const date = today.getDate();
+    const weekdays = ['日','月','火','水','木','金','土'];
+    const day = weekdays[today.getDay()];
+
+    const h1 = document.getElementById('todayDate');
+    h1.textContent = `${month}月${date}日（${day}）`;
+
+    // 今日のスケジュール表示
+    const key = String(month).padStart(2,'0') + String(date).padStart(2,'0');
+    if(scheduleData[key]){
+        showSchedule(key);
+    }
+}
+
+updateTodayDate();
 </script>
 </body>
 </html>
-
-
 
