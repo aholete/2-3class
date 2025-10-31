@@ -200,10 +200,10 @@ html { height: 100%; }
     <div id="omikujiResult" class="omikuji-result"></div>
 
     <!-- 🌿 日付ボタン -->
-    <div class="date-row"><button class="date-button" onclick="showSchedule('1029')">10月29日（水）</button></div>
-    <div class="date-row"><button class="date-button" onclick="showSchedule('1030')">10月30日（木）</button></div>
-    <div class="date-row"><button class="date-button" onclick="showSchedule('1031')">10月31日（金）</button></div>
     <div class="date-row"><button class="date-button" onclick="showSchedule('1101')">11月1日（土）</button></div>
+    <div class="date-row"><button class="date-button" onclick="showSchedule('1102')">11月2日（日）</button></div>
+    <div class="date-row"><button class="date-button" onclick="showSchedule('1103')">11月3日（月）</button></div>
+    <div class="date-row"><button class="date-button" onclick="showSchedule('1104')">11月4日（火）</button></div>
 
 </section>
 
@@ -232,10 +232,11 @@ html { height: 100%; }
 
 <script>
 const scheduleData = {
-    '1029': { date: '10月29日（水）', content: '<div class="change-item">保健委員会12時55分＠大会議室（iPad持参）</div><div class="change-item">2限：世界史/日本史</div><div class="change-item">3限：聖書</div><div class="change-item">6限：LHR</div><div class="change-item">7限：探究</div>' },
-    '1030': { date: '10月30日（木）', content: '<div class="change-item">授業変更なし</div>' },
-    '1031': { date: '10月31日（金）', content: '<div class="change-item">5限～7限：学園祭準備</div>' },
-    '1101': { date: '11月1日（土）', content: '<div class="change-item">午前中：生徒会企画</div><div class="change-item">午後：学園祭準備（～16時）</div>' }
+    '1101': { date: '11月1日（土）', content: '<div class="change-item">午前：生徒会企画/午後：学園祭準備（～16時）</div>' },
+    '1102': { date: '11月2日（日）', content: '<div class="change-item">勉強勉強勉強</div>' },
+    '1103': { date: '11月3日（月）', content: '<div class="change-item">学園祭</div>' },
+    '1104': { date: '11月4日（火）', content: '<div class="change-item">勉強勉強勉強</div>' }
+    
 };
 
 const omikujiResults = [
