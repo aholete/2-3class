@@ -253,17 +253,26 @@ function incrementDrawCount() {
 
 function drawOmikuji() {
     const count = getDrawCount();
+
+    // 3回目以降は引けない
     if (count >= 2) {
         alert("今日はおしまい。");
         return;
     }
+
     incrementDrawCount();
-
-    const r = Math.floor(Math.random() * omikujiResults.length);
-    const result = omikujiResults[r];
-
     const resultBox = document.getElementById('omikujiResult');
     resultBox.style.display = 'block';
+
+    // 2回目は「今日はおしまい」固定
+    if (count === 1) {
+        resultBox.innerHTML = `今日の運勢：<strong>今日はおしまい</strong><br>また明日引いてね！`;
+        return;
+    }
+
+    // 通常のおみくじ結果（1回目）
+    const r = Math.floor(Math.random() * omikujiResults.length);
+    const result = omikujiResults[r];
     resultBox.innerHTML = `今日の運勢：<strong>${result.name}</strong><br>${result.text}`;
 }
 
