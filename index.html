@@ -201,6 +201,7 @@ html { height: 100%; }
     <!-- 🌿 日付ボタン -->
     <div class="date-row"><button class="date-button" onclick="showSchedule('1029')">本日</button></div>
     <div class="date-row"><button class="date-button" onclick="showSchedule('1030')">明日</button></div>
+    <div class="date-row"><button class="date-button" onclick="showSchedule('1031')">明後日</button></div>
   
 
 </section>
@@ -217,8 +218,9 @@ html { height: 100%; }
 
 <script>
 const scheduleData = {
-    '1029': { date: '本日', content: '<div class="change-item">保健委員会12時55分＠大会議室（iPad持参）</div><div class="change-item">2限：世界史/日本史</div><div class="change-item">3限：聖書</div><div class="change-item">6限：LHR</div><div class="change-item">7限：探究</div>' },
-    '1030': { date: '明日', content: '<div class="change-item">授業変更なし</div>' }
+    '1029': { date: '本日', content: '<div class="change-item">学園祭</div>' },
+    '1030': { date: '明日', content: '<div class="change-item">勉強勉強勉強</div>' },
+    '1031': { date: '明後日', content: '<div class="change-item">3限：論表</div><div class="change-item">6限：学年礼拝</div><div class="change-item">7限：探究</div>' }
 };
 
 const omikujiResults = [
