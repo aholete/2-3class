@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>朝の連絡</title>
+<title>クラス連絡</title>
 <style>
 body {
   box-sizing: border-box;
@@ -182,9 +182,9 @@ html {
       <div id="omikujiResult" class="omikuji-result"></div>
 
       <!-- 🌿 日付ボタン -->
-      <div class="date-row"><button class="date-button" onclick="showSchedule('1029')">本日</button></div>
-      <div class="date-row"><button class="date-button" onclick="showSchedule('1030')">明日</button></div>
-      <div class="date-row"><button class="date-button" onclick="showSchedule('1031')">明後日</button></div>
+      <div class="date-row"><button class="date-button" onclick="showSchedule('today')">本日</button></div>
+      <div class="date-row"><button class="date-button" onclick="showSchedule('tomorrow')">明日</button></div>
+      <div class="date-row"><button class="date-button" onclick="showSchedule('following')">明後日</button></div>
     </section>
 
     <div id="scheduleDisplay" class="schedule-display">
@@ -196,11 +196,11 @@ html {
 
 <script>
 const scheduleData = {
-  '1029': {
+  'today': {
     date: '本日',
-    content:  '<div class="change-item">出版委員：高翔原稿「学園祭の原稿」締切日</div><div class="change-item">3限：家庭</div><div class="change-item">4限：古典</div><div class="change-item">7限：古典</div>' },
-  '1030': { date: '明日', content: '<div class="change-item">勉強勉強勉強</div>' },
-  '1031': { date: '明後日', content: '<div class="change-item">11/9（日）2年8組の生徒がカフェを開きます。場所は大甕駅徒歩2分のミカケル２F。マフィンと紅茶セットで500円の予定。時間は10時から16時です。</div>' }
+    content:  '<div class="change-item">予定は未定</div>' },
+  'tomorrow': { date: '明日', content: '<div class="change-item">予定は未定</div>' },
+  'following': { date: '明後日', content: '<div class="change-item">予定は未定</div>' }
 };
 
 const omikujiResults = [
