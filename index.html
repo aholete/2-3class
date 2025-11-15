@@ -92,8 +92,6 @@ body {
         <button class="date-button" onclick="showSchedule('following')">明後日</button>
       </div>
 
-      <div class="date-row"><button class="date-button" onclick="showSchedule('test1')">11月18日（火）</button></div>
-      <div class="date-row"><button class="date-button" onclick="showSchedule('test2')">11月19日（水）</button></div>
       <div class="date-row"><button class="date-button" onclick="showSchedule('test3')">11月20日（木）</button></div>
       <div class="date-row"><button class="date-button" onclick="showSchedule('test4')">11月21日（金）</button></div>
     </section>
@@ -121,11 +119,10 @@ body {
 <script>
 // スケジュール・おみくじデータ
 const scheduleData = {
-  'today': { date: '本日', content: '<div class="change-item">1限：数学</div>' },
-  'tomorrow': { date: '明日', content: '<div class="change-item">趣味は勉強、特技はテスト</div>' },
-  'following': { date: '明後日', content: '<div class="change-item">1限：論表</div>' },
-  'test1': { date: '11月18日（火）', content: '<div class="change-item">1限：論理国語</div><div class="change-item">文：生物基礎 / 理：化学</div>' },
-  'test2': { date: '11月19日（水）', content: '<div class="change-item">1限：公共</div><div class="change-item">2限：論理・表現Ⅱ</div><div class="change-item">3限：4組のみ：地理探究</div>' },
+  'today': { date: '本日', content: '<div class="change-item">趣味は勉強、特技はテスト</div>' },
+  'tomorrow': { date: '明日', content: '<div class="change-item">1限：論理国語</div><div class="change-item">文：生物基礎 / 理：化学</div>' },
+  'following': { date: '明後日', content: '<div class="change-item">1限：公共</div><div class="change-item">2限：論理・表現Ⅱ</div><div class="change-item">3限：4組のみ：地理探究</div>' },
+ 
   'test3': { date: '11月20日（木）', content: '<div class="change-item">1限：古典探究</div><div class="change-item">2限：英語CⅡ</div>' },
   'test4': { date: '11月21日（金）', content: '<div class="change-item">1限：文：世史・日史 / 理：物・生</div></div><div class="change-item">2限：数学</div>' }
 };
