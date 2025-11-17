@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>クラス連絡アプリ</title>
+<title>クラス連絡</title>
 <style>
 body {
   box-sizing: border-box;
@@ -75,7 +75,7 @@ body {
 
 <main class="container">
   <header class="header">
-    <h1>11月15日（土）</h1>
+    <h1>11月20日（木）</h1>
     <div class="bible-text">Peace Truth LOVE</div>
   </header>
 
@@ -92,8 +92,7 @@ body {
         <button class="date-button" onclick="showSchedule('following')">明後日</button>
       </div>
 
-      <div class="date-row"><button class="date-button" onclick="showSchedule('test3')">11月20日（木）</button></div>
-      <div class="date-row"><button class="date-button" onclick="showSchedule('test4')">11月21日（金）</button></div>
+<button class="date-button fancy-btn fancy-blue" onclick="showSchedule('test5')">注目</button>
     </section>
 
     <div id="scheduleDisplay" class="schedule-display">
@@ -104,13 +103,13 @@ body {
 
   <!-- Webページ表示エリア -->
   <div id="drawArea">
-    <iframe id="drawFrame" src="https://incict-design.github.io/spelling/" allowfullscreen></iframe>
+    <iframe id="drawFrame" src="https://incict-design.github.io/hikariplay/" allowfullscreen></iframe>
   </div>
 
 
 <!-- Webページ表示エリア -->
   <div id="drawArea">
-    <iframe id="drawFrame" src="https://incict-design.github.io/hikariplay/" allowfullscreen></iframe>
+    <iframe id="drawFrame" src="https://incict-design.github.io/image/" allowfullscreen></iframe>
   </div>
 
 
@@ -119,12 +118,14 @@ body {
 <script>
 // スケジュール・おみくじデータ
 const scheduleData = {
-  'today': { date: '本日', content: '<div class="change-item">趣味は勉強、特技はテスト</div>' },
-  'tomorrow': { date: '明日', content: '<div class="change-item">1限：論理国語</div><div class="change-item">2限：文-生物基礎 / 理-化学</div>' },
+  'today': { date: '本日', content: '<div class="change-item">後期中間試験3日目</div>' },
+  'tomorrow': { date: '明日', content: '<div class="change-item">後期中間試験最終日</div>' },
   'following': { date: '明後日', content: '<div class="change-item">1限：公共</div><div class="change-item">2限：論理・表現Ⅱ</div><div class="change-item">3限：4組のみ：地理探究</div>' },
  
-  'test3': { date: '11月20日（木）', content: '<div class="change-item">1限：古典探究</div><div class="change-item">2限：英語CⅡ</div>' },
-  'test4': { date: '11月21日（金）', content: '<div class="change-item">1限：文-世史・日史 / 理-物・生</div></div><div class="change-item">2限：数学</div>' }
+
+ 'test5': { date: '注目', content: '<div class="change-item">趣味は勉強、特技はテスト</div>' }
+
+
 };
 const omikujiResults = [
   {name:'大狂',text:'隕石注意'},
@@ -167,4 +168,3 @@ function showSchedule(k){
 
 </body>
 </html>
-
